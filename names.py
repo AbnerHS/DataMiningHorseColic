@@ -1,32 +1,32 @@
 names = [
-    'surgery',
-    'age',
-    'id',
-    'rectal temperature',
-    'pulse',
-    'respiratory hate',
+    'surgery',  #foi tratado com cirurgia
+    'age',      #idade
+    'id',       #identificação
+    'rectal temperature',   #temperatura retal
+    'pulse',                #pulso
+    'respiratory hate',     #taxa de respiração
     'extremities temperature',  #relacionado a rectal temperature
-    'peripheral pulse', #relacionado a pulse
-    'mucous membranes',
-    'capillary refill time',
-    'pain',
-    'peristalsis',  #relacionado a abdominal distension
-    'abdominal distension',  #IMPORTANTE
-    'nasogastric tube', #relacionado a pain
-    'nasogastric reflux',  #
+    'peripheral pulse',         #relacionado a pulse
+    'mucous membranes',         #cor da membrana mucosa
+    'capillary refill time',    #tempo de enchimento capilar
+    'pain',                     #dor
+    'peristalsis',              #relacionado a abdominal distension
+    'abdominal distension',     #distensão abdominal (IMPORTANTE)
+    'nasogastric tube',         #relacionado a pain
+    'nasogastric reflux',       #refluxo nasogastrico
     'nasogastric reflux PH',    #muitos dados faltantes
-    'rectal examination',
-    'abdomen',  
-    'packed cell volume',
-    'total protein',
+    'rectal examination',       #toque retal
+    'abdomen',                  #abdomen
+    'packed cell volume',       #volume globular
+    'total protein',            #proteína total
     'abdominocentesis appearence',  #relacionado a packed cell volume
     'abdomcentesis total protein',  #relacionado ao abdominocentesis
-    'outcome',  
-    'surgical lesion',
-    'type of lesion',
-    'site of lesion',
-    'subtype of lesion',
-    'cp_data',
+    'outcome',                  #resultado(viveu, morreu, sacrificado)
+    'surgical lesion',          #lesão cirúrgica
+    'type of lesion',           #tipo de lesão
+    'site of lesion',           #local da lesão
+    'subtype of lesion',        #subtipo da lesão
+    'cp_data',                  #dados patológicos presentes ou não
     'none',
 ]
 
@@ -77,5 +77,4 @@ important = [
     'total protein',
     'outcome',
     'surgical lesion',
-    # 'type of lesion',
 ]

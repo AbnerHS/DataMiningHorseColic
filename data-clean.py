@@ -33,7 +33,8 @@ def main():
 
   for c in columns_missing_values:
     method = 'mode'
-    if(c == 'rectal temperature' or c == 'pulse' or c == 'packed cell volume' or c == 'total protein'):
+    media = ['rectal temperature','pulse','packed cell volume','total protein','respiratory hate']
+    if(c in media):
       method = 'mean'
     updateMissingValues(df, c, method)
 
