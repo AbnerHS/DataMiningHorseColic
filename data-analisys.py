@@ -35,14 +35,14 @@ def main():
 
   #Medidas de Posição Relativa
   print("\n\n--------Posição Relativa--------")
-  for medida in medias:
+  for medida in medias + modas:
     coluna = df.loc[:, medida]
     print(medida)
     for Q in range(0, 100, 25):
       print("Q",int(Q/25),": ", coluna.quantile(Q/100))
+    print("--------------------------------")
 
   #Medidas de Associação
-  print("\n\n-------Medida de Associação-------")
   plt.figure()
   sns.heatmap(df.corr(), annot=True)
   plt.show()

@@ -3,13 +3,13 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 from names import cols, important
+
 def main():
   input_file = 'dataset/horse-colic-clear.data'
 
   df = pd.read_csv(input_file, names=cols, usecols=important)
   
-  # fig = plt.figure(figsize=(8,8))
-  fig, ax = plt.subplots(2, 2, constrained_layout=True)
+  _, ax = plt.subplots(2, 2, constrained_layout=True)
   # Distribuição de frequência de abdominal distension
   abdominal_distension = df.loc[:, 'abdominal distension']
   max = abdominal_distension.max()
@@ -37,7 +37,7 @@ def main():
   # Distribuição de frequência de respiratory hate
   sns.scatterplot(x = 'surgical lesion', y = 'respiratory hate', data = df)
   ax[1, 1].set_title("Respiratory Hate / Surgical Lesion")
-  
+
   plt.show()
 if __name__ == "__main__":
   main()

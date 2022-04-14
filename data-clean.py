@@ -1,15 +1,15 @@
 import pandas as pd
 import numpy as np
-from names import names, cols  
+from names import names, cols, important  
 
 def main():
   input_file = 'dataset/horse-colic.data'
   output_file = 'dataset/horse-colic-clear.data'
-  df = pd.read_csv(input_file, names=names, na_values='?', sep=' ', usecols=cols)
+  df = pd.read_csv(input_file, names=names, na_values='?', sep=' ', usecols=important)
   df['age'] = df['age'].map({1: 1, 9: 2})
   
   print("Primeiras 15 linhas")
-  print(df.head(15))
+  print(df.head(30))
   print("\n")
 
   print("Informações gerais")
@@ -37,8 +37,8 @@ def main():
     if(c in media):
       method = 'mean'
     updateMissingValues(df, c, method)
-
-  df.to_csv(output_file, header=False, index=False)
+  print(df.head(30))
+  # df.to_csv(output_file, header=False, index=False)
 
 def updateMissingValues(df, column, method, number=0):
   if method == 'number':
