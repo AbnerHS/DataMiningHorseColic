@@ -9,7 +9,7 @@ from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 from sklearn.metrics import silhouette_samples
 import matplotlib.pyplot as plt
-from names import cols, important
+from names import important
  
 #Defining our kmeans function from scratch
 def KMeans_scratch(x,k, no_of_iterations, metric):
@@ -53,14 +53,19 @@ def show_digitsdataset(digits):
 
 
 def plot_samples(projected, labels, title):    
-    fig = plt.figure()
+    fig = plt.figure(figsize=(8,8))
     u_labels = np.unique(labels)
+    legend = ['Cirúrgico', 'Não Cirúrgico']
+    colors = ['r','g']
+    j = 0
     for i in u_labels:
         plt.scatter(projected[labels == i , 0] , projected[labels == i , 1] , label = i,
-                    edgecolor='none', alpha=0.5, cmap=plt.cm.get_cmap('tab10', 10))
+                    edgecolor='none', color = colors[j], alpha=0.5, cmap=plt.cm.get_cmap('tab10', 10))
+        j+=1
     plt.xlabel('component 1')
     plt.ylabel('component 2')
-    plt.legend()
+    plt.legend(legend)
+    plt.grid()
     plt.title(title)
 
  
@@ -69,9 +74,10 @@ def main():
     # digits = load_digits()
     # show_digitsdataset(digits)
     input_file = 'dataset/horse-colic-normalized.data'
-    target = important[16]
-    features = important[:16]
-    df = pd.read_csv(input_file, names=important)
+    target = important[15]
+    features = important[:15]
+    df = pd.read_csv(input_file, 
+                     names = important)
 
     x = df.loc[:, features].values
 
@@ -80,9 +86,9 @@ def main():
     #Transform the data using PCA
     pca = PCA(2)
     projected = pca.fit_transform(x)
-    print(pca.explained_variance_ratio_)
+    # print(pca.explained_variance_ratio_)
     # print(digits.data.shape)
-    print(projected.shape)    
+    # print(projected.shape)    
     
     plot_samples(projected, y, 'Original Labels')
   

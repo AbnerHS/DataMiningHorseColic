@@ -38,8 +38,8 @@ def main():
     # digits = load_digits()
     # show_digitsdataset(digits)
     input_file = 'dataset/horse-colic-normalized.data'
-    target = important[16]
-    features = important[:16]
+    target = important[15]
+    features = important[:15]
     df = pd.read_csv(input_file, names=important)
 
     x = df.loc[:, features].values

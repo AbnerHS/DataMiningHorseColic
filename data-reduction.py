@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 
 def main():
   input_file = 'dataset/horse-colic-normalized.data'
-  target = important[16]
-  features = important[:16]
+  target = important[15]
+  features = important[:15]
   df = pd.read_csv(input_file, names=important)
 
   x = df.loc[:, features].values
@@ -31,14 +31,15 @@ def VisualizePcaProjection(finalDf, targetColumn):
     ax.set_xlabel('Principal Component 1', fontsize = 15)
     ax.set_ylabel('Principal Component 2', fontsize = 15)
     ax.set_title('2 component PCA', fontsize = 20)
-    targets = [1, 2, ]
+    targets = [1, 2]
+    legend = ['Cirúrgico', 'Não Cirúrgico']
     colors = ['r', 'g']
     for target, color in zip(targets,colors):
         indicesToKeep = finalDf[targetColumn] == target
         ax.scatter(finalDf.loc[indicesToKeep, 'principal component 1'],
                    finalDf.loc[indicesToKeep, 'principal component 2'],
                    c = color, s = 50)
-    ax.legend(targets)
+    ax.legend(legend)
     ax.grid()
     plt.show()
 

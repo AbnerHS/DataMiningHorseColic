@@ -5,9 +5,9 @@ from sklearn.preprocessing import MinMaxScaler
 def main():
   input_file = 'dataset/horse-colic-clear.data'
   output_file = 'dataset/horse-colic-normalized.data'
-  target = important[16]
-  features = important[:16]
-  df = pd.read_csv(input_file, names=cols, usecols=important)
+  target = important[15]
+  features = important[:15]
+  df = pd.read_csv(input_file, names=important)
   
   #Normalização Min-Max
   x = df.loc[:, features].values

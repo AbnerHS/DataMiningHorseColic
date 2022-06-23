@@ -3,9 +3,9 @@ import itertools
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import cross_validate, train_test_split
 from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, recall_score
 from sklearn.metrics import f1_score
 from sklearn.metrics import confusion_matrix
 from sklearn.svm import SVC
@@ -51,8 +51,7 @@ def main():
     #load dataset
     input_file = 'dataset/horse-colic-clear.data'
     df = pd.read_csv(input_file,    # Nome do arquivo com dados
-                     names = cols,
-                     usecols = important) # Nome das colunas                      
+                     names = important) # Nome das colunas                      
     target = important[15]
     features = important[:15]
     target_names = ['cirurgico','não cirurgico']
@@ -63,8 +62,8 @@ def main():
 
     print("Total samples: {}".format(X.shape[0]))
 
-    # Split the data - 75% train, 25% test
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=1)
+    # Split the data - 70% train, 30% test
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.30, random_state=1)
     print("Total train samples: {}".format(X_train.shape[0]))
     print("Total test  samples: {}".format(X_test.shape[0]))
 
@@ -74,7 +73,7 @@ def main():
     X_test = scaler.transform(X_test)
 
     # TESTS USING SVM classifier from sk-learn    
-    svm = SVC(kernel='poly') # poly, rbf, linear
+    svm = SVC(kernel='rbf') # poly, rbf, linear
     # training using train dataset
     svm.fit(X_train, y_train)
     # get support vectors
@@ -86,12 +85,17 @@ def main():
     print(svm.n_support_)
     # predict using test dataset
     y_hat_test = svm.predict(X_test)
-
+    cv_results = cross_validate(svm, X, y, cv=10)
+    sorted(cv_results.keys())
+    sorted(cv_results['test_score'])
+    print("Cross Validation SVM: {:.2f}%".format(np.mean(cv_results['test_score'])*100))
      # Get test accuracy score
     accuracy = accuracy_score(y_test, y_hat_test)*100
-    f1 = f1_score(y_test, y_hat_test,average='macro')
+    f1 = f1_score(y_test, y_hat_test,average='macro')*100
+    recall,_ = recall_score(y_test, y_hat_test, average=None)*100
     print("Acurracy SVM from sk-learn: {:.2f}%".format(accuracy))
     print("F1 Score SVM from sk-learn: {:.2f}%".format(f1))
+    print("Sensibility Score SVM from sk-learn: {:.2f}%".format(recall))
 
     # Get test confusion matrix    
     cm = confusion_matrix(y_test, y_hat_test)        

@@ -4,14 +4,14 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
+from sklearn.model_selection import cross_validate
 from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, recall_score
 from sklearn.metrics import f1_score
 from sklearn.metrics import confusion_matrix
-from sklearn import datasets
 from sklearn.neighbors import KNeighborsClassifier
 from collections import Counter
-from names import cols, important
+from names import important
 
 # Calculate distance between two points
 def minkowski_distance(a, b, p=1):    
@@ -103,8 +103,7 @@ def main():
     
     input_file = 'dataset/horse-colic-clear.data'
     df = pd.read_csv(input_file,    # Nome do arquivo com dados
-                     names = cols,
-                     usecols = important) # Nome das colunas                      
+                     names = important) # Nome das colunas                      
     target = important[15]
     features = important[:15]
     target_values = ['cirurgico','não cirurgico']
@@ -115,8 +114,8 @@ def main():
 
     print("Total samples: {}".format(X.shape[0]))
 
-    # Split the data - 75% train, 25% test
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=1)
+    # Split the data - 70% train, 30% test
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.30, random_state=1)
     print("Total train samples: {}".format(X_train.shape[0]))
     print("Total test  samples: {}".format(X_test.shape[0]))
 
@@ -127,30 +126,37 @@ def main():
         
     # STEP 1 - TESTS USING knn classifier write from scratch    
     # Make predictions on test dataset using knn classifier
-    print(y_train)
-    y_hat_test = knn_predict(X_train, X_test, y_train, y_test, k=5, p=2)
+    # print(y_train)
+    # y_hat_test = knn_predict(X_train, X_test, y_train, y_test, k=5, p=2)
 
-    # Get test accuracy score
-    accuracy = accuracy_score(y_test, y_hat_test)*100
-    f1 = f1_score(y_test, y_hat_test, average='macro')
-    print("Acurracy K-NN from scratch: {:.2f}%".format(accuracy))
-    print("F1 Score K-NN from scratch: {:.2f}%".format(f1))
+    # # Get test accuracy score
+    # accuracy = accuracy_score(y_test, y_hat_test)*100
+    # f1 = f1_score(y_test, y_hat_test, average='macro')
+    # print("Acurracy K-NN from scratch: {:.2f}%".format(accuracy))
+    # print("F1 Score K-NN from scratch: {:.2f}%".format(f1))
 
-    # Get test confusion matrix
-    cm = confusion_matrix(y_test, y_hat_test)        
-    plot_confusion_matrix(cm, target_values, False, "Confusion Matrix - K-NN")      
-    plot_confusion_matrix(cm, target_values, True, "Confusion Matrix - K-NN normalized")  
+    # # Get test confusion matrix
+    # cm = confusion_matrix(y_test, y_hat_test)        
+    # plot_confusion_matrix(cm, target_values, False, "Confusion Matrix - K-NN")      
+    # plot_confusion_matrix(cm, target_values, True, "Confusion Matrix - K-NN normalized")  
 
     # STEP 2 - TESTS USING knn classifier from sk-learn
     knn = KNeighborsClassifier(n_neighbors=5)
     knn.fit(X_train, y_train)
     y_hat_test = knn.predict(X_test)
+    
+    cv_results = cross_validate(knn, X, y, cv=10)
+    sorted(cv_results.keys())
+    sorted(cv_results['test_score'])
+    print("Cross Validation K-NN: {:.2f}%".format(np.mean(cv_results['test_score'])*100))
 
      # Get test accuracy score
     accuracy = accuracy_score(y_test, y_hat_test)*100
-    f1 = f1_score(y_test, y_hat_test,average='macro')
+    f1 = f1_score(y_test, y_hat_test, average='macro')*100
+    recall,_ = recall_score(y_test, y_hat_test, average=None)*100
     print("Acurracy K-NN from sk-learn: {:.2f}%".format(accuracy))
     print("F1 Score K-NN from sk-learn: {:.2f}%".format(f1))
+    print("Sensibility Score K-NN from sk-learn: {:.2f}%".format(recall))
 
     # Get test confusion matrix    
     cm = confusion_matrix(y_test, y_hat_test)        

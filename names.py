@@ -62,7 +62,6 @@ cols = [
 important = [
     'surgery',
     'age',
-    'id',
     'rectal temperature',
     'pulse',
     'respiratory hate',

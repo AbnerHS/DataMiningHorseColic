@@ -38,7 +38,7 @@ def main():
       method = 'mean'
     updateMissingValues(df, c, method)
   print(df.head(30))
-  # df.to_csv(output_file, header=False, index=False)
+  df.to_csv(output_file, header=False, index=False)
 
 def updateMissingValues(df, column, method, number=0):
   if method == 'number':

@@ -2,11 +2,11 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
-from names import cols, important
+from names import important
 
 def main():
   input_file = 'dataset/horse-colic-clear.data'
-  df = pd.read_csv(input_file, names=cols, usecols=important)
+  df = pd.read_csv(input_file, names=important)
 
   #Medidas Centrais
   medias = ['rectal temperature', 'pulse', 'respiratory hate']
@@ -44,7 +44,8 @@ def main():
 
   #Medidas de Associação
   plt.figure()
-  sns.heatmap(df.corr(), annot=True)
+  dfCorrelacao = df.loc[:,['surgery','age','pulse','pain','abdomen','surgical lesion']]
+  sns.heatmap(dfCorrelacao.corr(), annot=True)
   plt.show()
   
 
